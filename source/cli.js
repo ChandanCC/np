@@ -3,17 +3,17 @@
 // eslint-disable-next-line import/no-unassigned-import
 require('symbol-observable'); // Important: This needs to be first to prevent weird Observable incompatibilities
 const logSymbols = require('log-symbols');
-const meow = require('meow');
-const updateNotifier = require('update-notifier');
+// R const meow = require('meow');
+// T const updateNotifier = require('update-notifier');
 const hasYarn = require('has-yarn');
-const config = require('./config');
+// T const config = require('./config');
 const {isPackageNameAvailable} = require('./npm/util');
 const version = require('./version');
 const util = require('./util');
 const ui = require('./ui');
 const np = require('.');
 
-// const cli = meow(`
+// T const cli = meow(`
 // 	Usage
 // 	  $ np <version>
 
@@ -88,7 +88,7 @@ const np = require('.');
 		? await isPackageNameAvailable(pkg)
 		: false;
 
-	// const version = cli.input.length > 0 ? cli.input[0] : false;
+	// T const version = cli.input.length > 0 ? cli.input[0] : false;
 
 	const options = await ui(
 		{ ...defaultFlags, exists: !isAvailable, version },
