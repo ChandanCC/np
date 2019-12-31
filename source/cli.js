@@ -83,7 +83,7 @@ const np = require('.');
 		yarn: hasYarn()
 	};
 
-	const isAvailable = defaultFlags.publish?
+	const isAvailable = defaultFlags.publish ?
 		await isPackageNameAvailable(pkg) :
 		false;
 
