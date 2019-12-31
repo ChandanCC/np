@@ -3,75 +3,75 @@
 // eslint-disable-next-line import/no-unassigned-import
 require('symbol-observable'); // Important: This needs to be first to prevent weird Observable incompatibilities
 const logSymbols = require('log-symbols');
-// R const meow = require('meow');
-// T const updateNotifier = require('update-notifier');
+const meow = require('meow');
+const updateNotifier = require('update-notifier');
 const hasYarn = require('has-yarn');
-// T const config = require('./config');
+// const config = require('./config');
 const {isPackageNameAvailable} = require('./npm/util');
 const version = require('./version');
 const util = require('./util');
 const ui = require('./ui');
 const np = require('.');
 
-// T const cli = meow(`
-// 	Usage
-// 	  $ np <version>
+const cli = meow(`
+	Usage
+	  $ np <version>
 
-// 	  Version can be:
-// 	    ${version.SEMVER_INCREMENTS.join(' | ')} | 1.2.3
+	  Version can be:
+	    ${version.SEMVER_INCREMENTS.join(' | ')} | 1.2.3
 
-// 	Options
-// 	  --any-branch        Allow publishing from any branch
-// 	  --no-cleanup        Skips cleanup of node_modules
-// 	  --no-tests          Skips tests
-// 	  --yolo              Skips cleanup and testing
-// 	  --no-publish        Skips publishing
-// 	  --tag               Publish under a given dist-tag
-// 	  --no-yarn           Don't use Yarn
-// 	  --contents          Subdirectory to publish
-// 	  --no-release-draft  Skips opening a GitHub release draft
+	Options
+	  --any-branch        Allow publishing from any branch
+	  --no-cleanup        Skips cleanup of node_modules
+	  --no-tests          Skips tests
+	  --yolo              Skips cleanup and testing
+	  --no-publish        Skips publishing
+	  --tag               Publish under a given dist-tag
+	  --no-yarn           Don't use Yarn
+	  --contents          Subdirectory to publish
+	  --no-release-draft  Skips opening a GitHub release draft
 
-// 	Examples
-// 	  $ np
-// 	  $ np patch
-// 	  $ np 1.0.2
-// 	  $ np 1.0.2-beta.3 --tag=beta
-// 	  $ np 1.0.2-beta.3 --tag=beta --contents=dist
-// `, {
-// 	booleanDefault: undefined,
-// 	flags: {
-// 		anyBranch: {
-// 			type: 'boolean'
-// 		},
-// 		cleanup: {
-// 			type: 'boolean'
-// 		},
-// 		tests: {
-// 			type: 'boolean'
-// 		},
-// 		yolo: {
-// 			type: 'boolean'
-// 		},
-// 		publish: {
-// 			type: 'boolean'
-// 		},
-// 		releaseDraft: {
-// 			type: 'boolean',
-// 			default: true
-// 		},
-// 		tag: {
-// 			type: 'string'
-// 		},
-// 		yarn: {
-// 			type: 'boolean'
-// 		},
-// 		contents: {
-// 			type: 'string'
-// 		}
-// 	}
-// });
+	Examples
+	  $ np
+	  $ np patch
+	  $ np 1.0.2
+	  $ np 1.0.2-beta.3 --tag=beta
+	  $ np 1.0.2-beta.3 --tag=beta --contents=dist
+`, {
+	booleanDefault: undefined,
+	flags: {
+		anyBranch: {
+			type: 'boolean'
+		},
+		cleanup: {
+			type: 'boolean'
+		},
+		tests: {
+			type: 'boolean'
+		},
+		yolo: {
+			type: 'boolean'
+		},
+		publish: {
+			type: 'boolean'
+		},
+		releaseDraft: {
+			type: 'boolean',
+			default: true
+		},
+		tag: {
+			type: 'string'
+		},
+		yarn: {
+			type: 'boolean'
+		},
+		contents: {
+			type: 'string'
+		}
+	}
+});
 
-// updateNotifier({pkg: cli.pkg}).notify();
+updateNotifier({pkg: cli.pkg}).notify();
 
 (async () => {
 	const pkg = util.readPkg();
@@ -87,7 +87,7 @@ const np = require('.');
 		await isPackageNameAvailable(pkg) :
 		false;
 
-	// T const version = cli.input.length > 0 ? cli.input[0] : false;
+	const version = cli.input.length > 0 ? cli.input[0] : false;
 
 	const options = await ui(
 		{...defaultFlags, exists: !isAvailable, version},
