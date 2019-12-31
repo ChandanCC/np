@@ -6,7 +6,7 @@ const logSymbols = require('log-symbols');
 const meow = require('meow');
 const updateNotifier = require('update-notifier');
 const hasYarn = require('has-yarn');
-// T const config = require('./config');
+const config = require('./config');
 const {isPackageNameAvailable} = require('./npm/util');
 const version = require('./version');
 const util = require('./util');
@@ -79,20 +79,23 @@ updateNotifier({pkg: cli.pkg}).notify();
 	const defaultFlags = {
 		cleanup: true,
 		tests: true,
-		publish: false,
+		publish: true,
 		yarn: hasYarn()
 	};
 
-	const isAvailable = defaultFlags.publish ?
-		await isPackageNameAvailable(pkg) :
-		false;
+	const localConfig = await config();
+
+	const flags = {
+		...defaultFlags,
+		...localConfig,
+		...cli.flags
+	};
+
+	const isAvailable = flags.publish ? await isPackageNameAvailable(pkg) : false;
 
 	const version = cli.input.length > 0 ? cli.input[0] : false;
 
-	const options = await ui(
-		{...defaultFlags, exists: !isAvailable, version},
-		pkg
-	);
+	const options = await ui({...flags, exists: !isAvailable, version}, pkg);
 
 	if (!options.confirm) {
 		process.exit(0);
