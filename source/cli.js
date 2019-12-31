@@ -83,15 +83,14 @@ const np = require('.');
 		yarn: hasYarn()
 	};
 
-
-	const isAvailable = defaultFlags.publish
-		? await isPackageNameAvailable(pkg)
-		: false;
+	const isAvailable = defaultFlags.publish?
+		await isPackageNameAvailable(pkg) :
+		false;
 
 	// T const version = cli.input.length > 0 ? cli.input[0] : false;
 
 	const options = await ui(
-		{ ...defaultFlags, exists: !isAvailable, version },
+		{...defaultFlags, exists: !isAvailable, version},
 		pkg
 	);
 
